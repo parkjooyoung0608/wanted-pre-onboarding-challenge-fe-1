@@ -15,13 +15,10 @@ const Login = () => {
         <LoginTitle>로그인</LoginTitle>
         <form>
           <LoginInputBox>
-            <Input type="email" placeholder="이메일을 입력해주세요"></Input>
-            <Input
-              type="password"
-              placeholder="비밀번호를 입력해주세요"
-            ></Input>
-            <LoignBtn>로그인</LoignBtn>
-            <LoignBtn onClick={goToSignUp}>회원가입</LoignBtn>
+            <Input type="email" placeholder="이메일을 입력해주세요" />
+            <Input type="password" placeholder="비밀번호를 입력해주세요" />
+            <LoginBtn>로그인</LoginBtn>
+            <LoginBtn onClick={goToSignUp}>회원가입</LoginBtn>
           </LoginInputBox>
         </form>
       </LoginContainer>
@@ -33,7 +30,6 @@ export default Login;
 
 const LoginPage = styled.section`
   display: flex;
-  flex-direction: column;
   justify-content: center;
   align-items: center;
   height: 100vh;
@@ -70,7 +66,7 @@ const Input = styled.input`
   }
 `;
 
-const LoignBtn = styled.button`
+const LoginBtn = styled.button`
   margin: 10px auto 0 auto;
   width: 80%;
   height: 40px;
