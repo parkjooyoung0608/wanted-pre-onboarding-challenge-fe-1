@@ -1,7 +1,14 @@
 import React from "react";
+import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 
 const Login = () => {
+  const navigate = useNavigate();
+
+  const goToSignUp = () => {
+    navigate("/signup");
+  };
+
   return (
     <LoginPage>
       <LoginContainer>
@@ -14,6 +21,7 @@ const Login = () => {
               placeholder="비밀번호를 입력해주세요"
             ></Input>
             <LoignBtn>로그인</LoignBtn>
+            <LoignBtn onClick={goToSignUp}>회원가입</LoignBtn>
           </LoginInputBox>
         </form>
       </LoginContainer>
