@@ -1,34 +1,61 @@
-import React from "react";
+import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 
 const SignUp = () => {
+  const [inputValue, setInputValue] = useState({
+    email: "",
+    password: "",
+  });
+
+  const navigate = useNavigate();
+
+  const { email, password } = inputValue;
+
+  const inputChangeHandler = (e) => {
+    const { name, value } = e.target;
+    setInputValue({ ...inputValue, [name]: value });
+  };
+
+  const emailCondition = email.includes("@") && email.includes(".");
+  const passwordCondition = password.length > 7;
+
+  const submitClickHandler = (e) => {
+    e.preventDefault();
+    if (emailCondition && passwordCondition) {
+      navigate("/");
+      alert("가입 완료!");
+    }
+    if (!(email && password)) {
+      alert("모든 값을 입력해주세요!");
+    }
+  };
+
   return (
     <SignUpPage>
       <SignUpContainer>
         <SignUpTitle>회원가입</SignUpTitle>
         <form>
           <SignUpInputBox>
-            <InputLabel for="userId">id</InputLabel>
+            <InputLabel htmlFor="userId">id</InputLabel>
             <Input
+              name="email"
               type="email"
               id="userId"
               placeholder="이메일을 입력해주세요"
+              onChange={inputChangeHandler}
+              value={email}
             />
-            <InputLabel for="userPassword">비밀번호</InputLabel>
+            <InputLabel htmlFor="userPassword">비밀번호</InputLabel>
             <Input
+              name="password"
               type="password"
               id="userPassword"
               placeholder="비밀번호를 입력해주세요"
+              onChange={inputChangeHandler}
+              value={password}
             />
-            <InputLabel for="passwordReconfirm">비밀번호 재확인</InputLabel>
-            <Input
-              type="password"
-              id="passwordReconfirm"
-              placeholder="비밀번호를 다시 입력해주세요"
-            />
-            <InputLabel for="userName">이름</InputLabel>
-            <Input type="text" id="userName" />
-            <SignUpBtn>가입하기</SignUpBtn>
+            <SignUpBtn onClick={submitClickHandler}>가입하기</SignUpBtn>
           </SignUpInputBox>
         </form>
       </SignUpContainer>
