@@ -1,7 +1,7 @@
 import React from "react";
 import styled from "styled-components";
 
-const SingUp = () => {
+const SignUp = () => {
   return (
     <SignUpPage>
       <SignUpContainer>
@@ -36,7 +36,7 @@ const SingUp = () => {
   );
 };
 
-export default SingUp;
+export default SignUp;
 
 const SignUpPage = styled.section`
   display: flex;
