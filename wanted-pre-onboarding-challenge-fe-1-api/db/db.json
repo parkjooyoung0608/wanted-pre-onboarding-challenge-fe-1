@@ -1,4 +1,12 @@
 {
   "todos": [],
-  "users": []
+  "users": [
+    {
+      "email": "miqkrwndud39@gmail.com",
+      "password": "1234qwer",
+      "id": "Wea0XT8yDklJZkYsL4dle",
+      "createdAt": "2022-08-05T12:02:14.792Z",
+      "updatedAt": "2022-08-05T12:02:14.792Z"
+    }
+  ]
 }

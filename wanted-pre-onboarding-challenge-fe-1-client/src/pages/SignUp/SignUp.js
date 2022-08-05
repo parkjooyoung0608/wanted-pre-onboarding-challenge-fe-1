@@ -2,33 +2,40 @@ import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import FormLayout from "../FormLayout/FormLayout";
+import API from "../../config";
+import axios from "axios";
 
 const SignUp = () => {
+  const navigate = useNavigate();
+
   const [inputValue, setInputValue] = useState({
     email: "",
     password: "",
   });
 
-  const navigate = useNavigate();
-
   const { email, password } = inputValue;
 
   const inputChangeHandler = (e) => {
     const { name, value } = e.target;
-    setInputValue({ ...inputValue, [name]: value });
+    setInputValue({
+      ...inputValue,
+      [name]: value,
+    });
   };
 
-  const emailCondition = email.includes("@") && email.includes(".");
-  const passwordCondition = password.length > 7;
+  const inputConditionCheck =
+    email.includes("@") && email.includes(".") && password.length > 7;
 
-  const submitClickHandler = (e) => {
-    e.preventDefault();
-    if (emailCondition && passwordCondition) {
+  const submitClickHandler = async () => {
+    try {
+      const res = await axios.post(`${API.signUp}`, {
+        email,
+        password,
+      });
+      alert(res.data.message);
       navigate("/");
-      alert("가입 완료!");
-    }
-    if (!(email && password)) {
-      alert("모든 값을 입력해주세요!");
+    } catch (error) {
+      alert(error);
     }
   };
 
@@ -55,7 +62,12 @@ const SignUp = () => {
             onChange={inputChangeHandler}
             value={password}
           />
-          <SignUpBtn onClick={submitClickHandler}>가입하기</SignUpBtn>
+          <SignUpBtn
+            disabled={!inputConditionCheck}
+            onClick={submitClickHandler}
+          >
+            가입하기
+          </SignUpBtn>
         </SignUpInputBox>
       </form>
     </FormLayout>
@@ -67,7 +79,6 @@ export default SignUp;
 const SignUpTitle = styled.h1`
   margin-bottom: 30px;
   font-size: 30px;
-  text-align: center;
 `;
 
 const SignUpInputBox = styled.div`
@@ -76,6 +87,7 @@ const SignUpInputBox = styled.div`
 `;
 
 const InputLabel = styled.label`
+  text-align: left;
   margin-bottom: 5px;
 `;
 
