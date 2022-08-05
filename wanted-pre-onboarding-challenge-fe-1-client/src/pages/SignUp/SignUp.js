@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
+import FormLayout from "../FormLayout/FormLayout";
 
 const SignUp = () => {
   const [inputValue, setInputValue] = useState({
@@ -32,51 +33,36 @@ const SignUp = () => {
   };
 
   return (
-    <SignUpPage>
-      <SignUpContainer>
-        <SignUpTitle>회원가입</SignUpTitle>
-        <form>
-          <SignUpInputBox>
-            <InputLabel htmlFor="userId">id</InputLabel>
-            <Input
-              name="email"
-              type="email"
-              id="userId"
-              placeholder="이메일을 입력해주세요"
-              onChange={inputChangeHandler}
-              value={email}
-            />
-            <InputLabel htmlFor="userPassword">비밀번호</InputLabel>
-            <Input
-              name="password"
-              type="password"
-              id="userPassword"
-              placeholder="비밀번호를 입력해주세요"
-              onChange={inputChangeHandler}
-              value={password}
-            />
-            <SignUpBtn onClick={submitClickHandler}>가입하기</SignUpBtn>
-          </SignUpInputBox>
-        </form>
-      </SignUpContainer>
-    </SignUpPage>
+    <FormLayout>
+      <SignUpTitle>회원가입</SignUpTitle>
+      <form>
+        <SignUpInputBox>
+          <InputLabel htmlFor="userId">id</InputLabel>
+          <Input
+            name="email"
+            type="email"
+            id="userId"
+            placeholder="이메일을 입력해주세요"
+            onChange={inputChangeHandler}
+            value={email}
+          />
+          <InputLabel htmlFor="userPassword">비밀번호</InputLabel>
+          <Input
+            name="password"
+            type="password"
+            id="userPassword"
+            placeholder="비밀번호를 입력해주세요"
+            onChange={inputChangeHandler}
+            value={password}
+          />
+          <SignUpBtn onClick={submitClickHandler}>가입하기</SignUpBtn>
+        </SignUpInputBox>
+      </form>
+    </FormLayout>
   );
 };
 
 export default SignUp;
-
-const SignUpPage = styled.section`
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 100vh;
-`;
-
-const SignUpContainer = styled.div`
-  padding: 50px;
-  border: 1px solid lightgray;
-  background-color: rgba(0, 0, 0, 0.1);
-`;
 
 const SignUpTitle = styled.h1`
   margin-bottom: 30px;

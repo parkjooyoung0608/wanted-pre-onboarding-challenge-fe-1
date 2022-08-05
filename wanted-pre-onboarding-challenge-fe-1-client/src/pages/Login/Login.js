@@ -1,6 +1,7 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
+import FormLayout from "../FormLayout/FormLayout";
 
 const Login = () => {
   const navigate = useNavigate();
@@ -10,37 +11,21 @@ const Login = () => {
   };
 
   return (
-    <LoginPage>
-      <LoginContainer>
-        <LoginTitle>로그인</LoginTitle>
-        <form>
-          <LoginInputBox>
-            <Input type="email" placeholder="이메일을 입력해주세요" />
-            <Input type="password" placeholder="비밀번호를 입력해주세요" />
-            <LoginBtn>로그인</LoginBtn>
-            <LoginBtn onClick={goToSignUp}>회원가입</LoginBtn>
-          </LoginInputBox>
-        </form>
-      </LoginContainer>
-    </LoginPage>
+    <FormLayout>
+      <LoginTitle>로그인</LoginTitle>
+      <form>
+        <LoginInputBox>
+          <Input type="email" placeholder="이메일을 입력해주세요" />
+          <Input type="password" placeholder="비밀번호를 입력해주세요" />
+          <LoginBtn>로그인</LoginBtn>
+          <LoginBtn onClick={goToSignUp}>회원가입</LoginBtn>
+        </LoginInputBox>
+      </form>
+    </FormLayout>
   );
 };
 
 export default Login;
-
-const LoginPage = styled.section`
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 100vh;
-`;
-
-const LoginContainer = styled.div`
-  border: 1px solid lightgray;
-  text-align: center;
-  padding: 50px;
-  background-color: rgba(0, 0, 0, 0.1);
-`;
 
 const LoginTitle = styled.h1`
   font-size: 30px;
