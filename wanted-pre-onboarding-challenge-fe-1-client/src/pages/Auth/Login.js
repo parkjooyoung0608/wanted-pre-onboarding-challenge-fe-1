@@ -1,13 +1,48 @@
-import React from "react";
+import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import FormLayout from "../FormLayout/FormLayout";
+import API from "../../config";
+import axios from "axios";
 
 const Login = () => {
   const navigate = useNavigate();
 
+  const [inputValue, setInputValue] = useState({
+    email: "",
+    password: "",
+  });
+
+  const { email, password } = inputValue;
+
+  const inputChangeHandler = (e) => {
+    const { name, value } = e.target;
+    setInputValue({
+      ...inputValue,
+      [name]: value,
+    });
+  };
+
+  const inputConditionCheck =
+    email.includes("@") && email.includes(".") && password.length > 7;
+
+  const submitClickHandler = async (e) => {
+    e.preventDefault();
+    try {
+      const res = await axios.post(`${API.login}`, {
+        email,
+        password,
+      });
+      alert(res.data.message);
+      localStorage.setItem("token", res.data.token);
+      navigate("/");
+    } catch (error) {
+      alert(error);
+    }
+  };
+
   const goToSignUp = () => {
-    navigate("/signup");
+    navigate("/auth/signup");
   };
 
   return (
@@ -15,9 +50,28 @@ const Login = () => {
       <LoginTitle>로그인</LoginTitle>
       <form>
         <LoginInputBox>
-          <Input type="email" placeholder="이메일을 입력해주세요" />
-          <Input type="password" placeholder="비밀번호를 입력해주세요" />
-          <LoginBtn>로그인</LoginBtn>
+          <InputLabel htmlFor="userId">id</InputLabel>
+          <Input
+            name="email"
+            type="email"
+            id="userId"
+            placeholder="이메일을 입력해주세요"
+            onChange={inputChangeHandler}
+          />
+          <InputLabel htmlFor="userPassword">비밀번호</InputLabel>
+          <Input
+            name="password"
+            type="password"
+            id="userPassword"
+            placeholder="비밀번호를 입력해주세요"
+            onChange={inputChangeHandler}
+          />
+          <LoginBtn
+            disabled={!inputConditionCheck}
+            onClick={submitClickHandler}
+          >
+            로그인
+          </LoginBtn>
           <LoginBtn onClick={goToSignUp}>회원가입</LoginBtn>
         </LoginInputBox>
       </form>
@@ -35,6 +89,11 @@ const LoginTitle = styled.h1`
 const LoginInputBox = styled.div`
   display: flex;
   flex-direction: column;
+`;
+
+const InputLabel = styled.label`
+  text-align: left;
+  margin-bottom: 5px;
 `;
 
 const Input = styled.input`
@@ -67,16 +126,7 @@ const LoginBtn = styled.button`
   }
 
   &:disabled {
-    width: 80%;
-    margin: auto;
-    height: 40px;
-    margin-bottom: 80px;
-    margin-top: 10px;
-    border: none;
     background-color: #b2dffc;
-    color: white;
-    font-size: 16px;
-    border-radius: 5px;
     cursor: default;
   }
 `;

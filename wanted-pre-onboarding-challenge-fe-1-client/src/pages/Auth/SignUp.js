@@ -33,7 +33,7 @@ const SignUp = () => {
         password,
       });
       alert(res.data.message);
-      navigate("/");
+      navigate("/auth/login");
     } catch (error) {
       alert(error);
     }
@@ -121,16 +121,7 @@ const SignUpBtn = styled.button`
   }
 
   &:disabled {
-    width: 80%;
-    margin: auto;
-    height: 40px;
-    margin-bottom: 80px;
-    margin-top: 10px;
-    border: none;
     background-color: #b2dffc;
-    color: white;
-    font-size: 16px;
-    border-radius: 5px;
     cursor: default;
   }
 `;
