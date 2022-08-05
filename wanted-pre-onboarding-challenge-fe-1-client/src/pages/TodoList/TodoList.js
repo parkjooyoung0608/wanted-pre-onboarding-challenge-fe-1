@@ -1,7 +1,13 @@
 import React from "react";
+import TodoTemplate from "./TodoTemplate";
+import TodoListBlock from "./TodoListBlock";
 
 const TodoList = () => {
-  return <div>TodoList</div>;
+  return (
+    <TodoTemplate>
+      <TodoListBlock />
+    </TodoTemplate>
+  );
 };
 
 export default TodoList;

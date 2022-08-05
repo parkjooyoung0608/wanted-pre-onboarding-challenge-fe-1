@@ -1,10 +1,10 @@
 import React from "react";
 import styled from "styled-components";
 
-const FormLayout = (props) => {
+const FormLayout = ({ children }) => {
   return (
     <PageLayout>
-      <PageContainer>{props.children}</PageContainer>
+      <PageContainer>{children}</PageContainer>
     </PageLayout>
   );
 };
@@ -16,7 +16,6 @@ const PageLayout = styled.section`
   justify-content: center;
   align-items: center;
   height: 100vh;
-  background-color: rgba(0, 0, 0, 0.1);
 `;
 
 const PageContainer = styled.div`
