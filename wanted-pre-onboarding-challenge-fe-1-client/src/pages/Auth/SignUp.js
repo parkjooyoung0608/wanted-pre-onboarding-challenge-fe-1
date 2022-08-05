@@ -26,7 +26,8 @@ const SignUp = () => {
   const inputConditionCheck =
     email.includes("@") && email.includes(".") && password.length > 7;
 
-  const submitClickHandler = async () => {
+  const submitClickHandler = async (e) => {
+    e.preventDefault();
     try {
       const res = await axios.post(`${API.signUp}`, {
         email,
