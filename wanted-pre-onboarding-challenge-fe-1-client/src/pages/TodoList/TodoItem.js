@@ -1,48 +1,90 @@
-import React from "react";
+import React, { useState } from "react";
 import styled, { css } from "styled-components";
 import { useTodoDispatch } from "../../TodoContext";
 
 const TodoItem = ({ id, done, text }) => {
+  const [edited, setEdited] = useState(false);
+  const [newText, setNewText] = useState(text);
+
   const dispatch = useTodoDispatch();
+
   const onToggle = () => dispatch({ type: "TOGGLE", id });
   const onRemove = () => dispatch({ type: "REMOVE", id });
+  const onClickEditButton = () => setEdited(true);
+  const onChangeEditInput = (e) => {
+    setNewText(e.target.value);
+  };
+  const onClickSubmitButton = (e) => {
+    setEdited(false);
+  };
 
   return (
     <TodoItemBlock>
       <CheckCircle done={done} onClick={onToggle}>
         {done && `✔️`}
       </CheckCircle>
-      <Text done={done}>{text}</Text>
-      <Remove onClick={onRemove}>🗑</Remove>
+
+      {edited ? (
+        <>
+          <InputForm>
+            <InputText onChange={onChangeEditInput} value={newText} />
+          </InputForm>
+          <AmendButton onClick={onClickSubmitButton}>수정하기</AmendButton>
+        </>
+      ) : (
+        <>
+          <Text done={done}>{text}</Text>
+          <AmendButton onClick={onClickEditButton}>수정</AmendButton>
+        </>
+      )}
+
+      <RemoveButton onClick={onRemove}>🗑</RemoveButton>
     </TodoItemBlock>
   );
 };
 
 export default React.memo(TodoItem);
 
-const Remove = styled.div`
+const AmendButton = styled.div`
+  margin-right: 10px;
+  padding: 8px;
+  line-height: 24px;
+  background: #38d9a9;
+  text-align: center;
+  color: white;
+  border-radius: 20px;
+
+  &:hover {
+    background: #63e6be;
+  }
+  &:active {
+    background: #20c997;
+  }
+
+  cursor: pointer;
+`;
+
+const RemoveButton = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
   color: #dee2e6;
   font-size: 24px;
   cursor: pointer;
+  opacity: 0.5;
   &:hover {
-    color: #ff6b6b;
+    opacity: 1;
   }
-  display: none;
 `;
 
 const TodoItemBlock = styled.div`
+  position: relative;
+  top: 110px;
+  left: 0;
   display: flex;
   align-items: center;
   padding-top: 12px;
   padding-bottom: 12px;
-  &:hover {
-    ${Remove} {
-      display: initial;
-    }
-  }
 `;
 
 const CheckCircle = styled.div`
@@ -73,4 +115,19 @@ const Text = styled.div`
     css`
       color: #ced4da;
     `}
+`;
+
+const InputForm = styled.form`
+  flex: 1;
+`;
+
+const InputText = styled.input`
+  padding: 5px 0 6px 0;
+  font-size: 21px;
+  color: #495057;
+  border: none;
+  border-bottom: 1px solid #f1f3f5;
+  &:focus {
+    outline: none;
+  }
 `;
