@@ -1,15 +1,13 @@
 import React, { useState } from "react";
 import styled, { css } from "styled-components";
-import { useTodoDispatch } from "../../TodoContext";
 
-const TodoItem = ({ id, done, text }) => {
+const TodoItem = ({ id, text, title, onRemove }) => {
   const [edited, setEdited] = useState(false);
   const [newText, setNewText] = useState(text);
+  const [done, setDone] = useState(false);
 
-  const dispatch = useTodoDispatch();
+  const onToggle = () => setDone(!done);
 
-  const onToggle = () => dispatch({ type: "TOGGLE", id });
-  const onRemove = () => dispatch({ type: "REMOVE", id });
   const onClickEditButton = () => setEdited(true);
   const onChangeEditInput = (e) => {
     setNewText(e.target.value);
@@ -33,12 +31,15 @@ const TodoItem = ({ id, done, text }) => {
         </>
       ) : (
         <>
-          <Text done={done}>{text}</Text>
+          <Text done={done}>
+            <Text>제목 : {title}</Text>
+            <Text>내용 : {text}</Text>
+          </Text>
           <AmendButton onClick={onClickEditButton}>수정</AmendButton>
         </>
       )}
 
-      <RemoveButton onClick={onRemove}>🗑</RemoveButton>
+      <RemoveButton onClick={() => onRemove(id)}>🗑</RemoveButton>
     </TodoItemBlock>
   );
 };

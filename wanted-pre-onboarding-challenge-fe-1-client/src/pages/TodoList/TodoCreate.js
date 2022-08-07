@@ -1,27 +1,32 @@
 import React, { useState } from "react";
-import styled, { css } from "styled-components";
-import { useTodoDispatch, useTodoNextId } from "../../TodoContext";
+import styled from "styled-components";
+import axios from "axios";
+import API from "../../config";
 
 const TodoCreate = () => {
-  const [value, setValue] = useState("");
+  const [todoInput, setTodoInput] = useState("");
 
-  const dispatch = useTodoDispatch();
-  const nextId = useTodoNextId();
+  const onChange = (e) => setTodoInput(e.target.value);
 
-  const onChange = (e) => setValue(e.target.value);
-  const onSubmit = (e) => {
-    e.preventDefault();
+  const onSubmit = async (e) => {
+    try {
+      const res = await axios.post(
+        `${API.todos}`,
+        {
+          title: "hi",
+          content: todoInput,
+        },
+        {
+          headers: { Authorization: localStorage.getItem("token") },
+        }
+      );
+      console.log(res);
+      alert("작성완료");
+    } catch (error) {
+      alert(error);
+    }
 
-    dispatch({
-      type: "CREATE",
-      todo: {
-        id: nextId.current,
-        text: value,
-        done: false,
-      },
-    });
-    setValue("");
-    nextId.current += 1;
+    setTodoInput("");
   };
 
   return (
@@ -30,9 +35,9 @@ const TodoCreate = () => {
         <InsertForm onSubmit={onSubmit}>
           <Input
             autoFocus
-            placeholder="할 일을 입력 후, Enter 또는 추가버튼을 누르세요"
+            placeholder="할 일을 입력해주세요"
             onChange={onChange}
-            value={value}
+            value={todoInput}
           />
           <InputButton>추가</InputButton>
         </InsertForm>
@@ -41,7 +46,7 @@ const TodoCreate = () => {
   );
 };
 
-export default React.memo(TodoCreate);
+export default TodoCreate;
 
 const InsertFormPositioner = styled.div`
   width: 100%;

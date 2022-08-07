@@ -1,20 +1,59 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import TodoItem from "./TodoItem";
-import { useTodoState } from "../../TodoContext";
+import API from "../../config";
+import axios from "axios";
 
 const TodoListBlock = () => {
-  const todos = useTodoState();
+  const [todoData, setTodoData] = useState({});
+
+  const { data } = todoData;
+
+  const getTodoList = async () => {
+    try {
+      const res = await axios.get(`${API.todos}`, {
+        headers: { Authorization: localStorage.getItem("token") },
+      });
+      setTodoData(res.data);
+    } catch (error) {
+      alert(error);
+    }
+  };
+
+  useEffect(() => {
+    getTodoList();
+  }, []);
+
+  const onRemove = async (id) => {
+    const headers = {
+      Authorization: localStorage.getItem("token"),
+    };
+
+    try {
+      const res = await axios.delete(`${API.todos}/${id}`, {
+        headers,
+      });
+      if (res.status === 200) {
+        alert("정말 삭제하시겠습니까?");
+      }
+    } catch (error) {
+      alert(error);
+    }
+    getTodoList();
+  };
 
   return (
     <TodoListBlockStyle>
-      {todos.map((todo) => (
-        <TodoItem
-          key={todo.id}
-          id={todo.id}
-          text={todo.text}
-          done={todo.done}
-        />
+      {data?.map((data) => (
+        <div key={data.id}>
+          <TodoItem
+            key={data.id}
+            id={data.id}
+            title={data.title}
+            onRemove={onRemove}
+            text={JSON.stringify(data.content).replace(/"/g, "")}
+          />
+        </div>
       ))}
     </TodoListBlockStyle>
   );
