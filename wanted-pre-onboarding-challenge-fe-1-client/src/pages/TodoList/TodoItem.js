@@ -1,17 +1,24 @@
 import React from "react";
 import styled, { css } from "styled-components";
+import { useTodoDispatch } from "../../TodoContext";
 
 const TodoItem = ({ id, done, text }) => {
+  const dispatch = useTodoDispatch();
+  const onToggle = () => dispatch({ type: "TOGGLE", id });
+  const onRemove = () => dispatch({ type: "REMOVE", id });
+
   return (
     <TodoItemBlock>
-      <CheckCircle done={done}>{done && `✔️`}</CheckCircle>
+      <CheckCircle done={done} onClick={onToggle}>
+        {done && `✔️`}
+      </CheckCircle>
       <Text done={done}>{text}</Text>
-      <Remove>🗑</Remove>
+      <Remove onClick={onRemove}>🗑</Remove>
     </TodoItemBlock>
   );
 };
 
-export default TodoItem;
+export default React.memo(TodoItem);
 
 const Remove = styled.div`
   display: flex;
