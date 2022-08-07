@@ -1,15 +1,14 @@
 import React, { useState } from "react";
 import styled, { css } from "styled-components";
-import { useTodoDispatch } from "../../TodoContext";
 
-const TodoItem = ({ id, done, text }) => {
+const TodoItem = ({ id, text }) => {
   const [edited, setEdited] = useState(false);
   const [newText, setNewText] = useState(text);
+  const [done, setDone] = useState(false);
 
-  const dispatch = useTodoDispatch();
+  const onToggle = () => setDone(!done);
+  const onRemove = () => console.log("Remove");
 
-  const onToggle = () => dispatch({ type: "TOGGLE", id });
-  const onRemove = () => dispatch({ type: "REMOVE", id });
   const onClickEditButton = () => setEdited(true);
   const onChangeEditInput = (e) => {
     setNewText(e.target.value);
