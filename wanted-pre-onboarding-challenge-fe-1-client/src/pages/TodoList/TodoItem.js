@@ -1,18 +1,53 @@
 import React, { useState } from "react";
 import styled, { css } from "styled-components";
+import axios from "axios";
+import API from "../../config";
 
 const TodoItem = ({ id, text, title, onRemove }) => {
   const [edited, setEdited] = useState(false);
-  const [newText, setNewText] = useState(text);
   const [done, setDone] = useState(false);
+  const [newText, setNewText] = useState({
+    newTitle: title,
+    newContent: text,
+  });
+
+  const { newTitle, newContent } = newText;
 
   const onToggle = () => setDone(!done);
 
   const onClickEditButton = () => setEdited(true);
+
   const onChangeEditInput = (e) => {
-    setNewText(e.target.value);
+    const { name, value } = e.target;
+    setNewText({
+      ...newText,
+      [name]: value,
+    });
   };
-  const onClickSubmitButton = (e) => {
+
+  const onClickAmend = async (e) => {
+    e.preventDefault();
+
+    const headers = {
+      Authorization: localStorage.getItem("token"),
+    };
+
+    try {
+      console.log("dd");
+      const res = await axios.put(`${API.todos}/${id}`, {
+        headers,
+        data: {
+          title: newTitle,
+          content: newContent,
+          id,
+          createdAt: "2022-08-08T12:10:44.054Z",
+          updatedAt: new Date(),
+        },
+      });
+      console.log(res.data);
+    } catch (error) {
+      alert(error);
+    }
     setEdited(false);
   };
 
@@ -25,15 +60,31 @@ const TodoItem = ({ id, text, title, onRemove }) => {
       {edited ? (
         <>
           <InputForm>
-            <InputText onChange={onChangeEditInput} value={newText} />
+            <InputLabel htmlFor="title">제목 :</InputLabel>
+            <InputText
+              name="newTitle"
+              type="text"
+              id="title"
+              onChange={onChangeEditInput}
+              value={newTitle}
+            />
+            <br />
+            <InputLabel htmlFor="content">내용 :</InputLabel>
+            <InputText
+              name="newContent"
+              type="text"
+              id="content"
+              onChange={onChangeEditInput}
+              value={newContent}
+            />
           </InputForm>
-          <AmendButton onClick={onClickSubmitButton}>수정하기</AmendButton>
+          <AmendButton onClick={onClickAmend}>수정하기</AmendButton>
         </>
       ) : (
         <>
           <Text done={done}>
-            <Text>제목 : {title}</Text>
-            <Text>내용 : {text}</Text>
+            <Text>제목 : {newTitle}</Text>
+            <Text>내용 : {newContent}</Text>
           </Text>
           <AmendButton onClick={onClickEditButton}>수정</AmendButton>
         </>
@@ -108,6 +159,7 @@ const CheckCircle = styled.div`
 `;
 
 const Text = styled.div`
+  padding: 5px 0 6px 0;
   flex: 1;
   font-size: 21px;
   color: #495057;
@@ -116,10 +168,19 @@ const Text = styled.div`
     css`
       color: #ced4da;
     `}
+  &:first-child {
+    padding-bottom: 9px;
+  }
 `;
 
 const InputForm = styled.form`
   flex: 1;
+`;
+
+const InputLabel = styled.label`
+  margin-right: 5px;
+  font-size: 21px;
+  color: #495057;
 `;
 
 const InputText = styled.input`

@@ -1,5 +1,27 @@
 {
-  "todos": [],
+  "todos": [
+    {
+      "title": "hi",
+      "content": "우산사기",
+      "id": "3Pgv3pyp1vhN_sqvvxfHk",
+      "createdAt": "2022-08-08T12:10:44.054Z",
+      "updatedAt": "2022-08-08T12:10:44.054Z"
+    },
+    {
+      "title": "hi",
+      "content": "라면사기",
+      "id": "_xnfJlJ6xkp6Lhqil3-Tx",
+      "createdAt": "2022-08-08T15:32:54.246Z",
+      "updatedAt": "2022-08-08T15:32:54.246Z"
+    },
+    {
+      "title": "hi",
+      "content": "공부하기",
+      "id": "q3F3AlXnAUA1OZafEBOyq",
+      "createdAt": "2022-08-08T15:32:57.525Z",
+      "updatedAt": "2022-08-08T15:32:57.525Z"
+    }
+  ],
   "users": [
     {
       "email": "miqkrwndud39@gmail.com",
