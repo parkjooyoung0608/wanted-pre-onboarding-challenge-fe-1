@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import styled, { css } from "styled-components";
 import axios from "axios";
 import API from "../../config";
@@ -10,6 +10,13 @@ const TodoItem = ({ id, text, title, onRemove }) => {
     newTitle: title,
     newContent: text,
   });
+
+  useEffect(() => {
+    setNewText({
+      newTitle: title,
+      newContent: text,
+    });
+  }, [title, text]);
 
   const { newTitle, newContent } = newText;
 
@@ -25,24 +32,17 @@ const TodoItem = ({ id, text, title, onRemove }) => {
     });
   };
 
-  const onClickAmend = async (e) => {
-    e.preventDefault();
-
+  const onClickAmend = async (id) => {
     const headers = {
       Authorization: localStorage.getItem("token"),
     };
 
     try {
-      const res = await axios.put(`${API.todos}/${id}`, {
-        headers,
-        data: {
-          title: newTitle,
-          content: newContent,
-          id,
-          createdAt: "2022-08-08T12:10:44.054Z",
-          updatedAt: new Date(),
-        },
-      });
+      const res = await axios.put(
+        `${API.todos}/${id}`,
+        { title: newTitle, content: newContent },
+        { headers }
+      );
       console.log(res.data);
     } catch (error) {
       alert(error);
@@ -77,7 +77,7 @@ const TodoItem = ({ id, text, title, onRemove }) => {
               value={newContent}
             />
           </InputForm>
-          <AmendButton onClick={onClickAmend}>수정하기</AmendButton>
+          <AmendButton onClick={() => onClickAmend(id)}>수정하기</AmendButton>
         </>
       ) : (
         <>
