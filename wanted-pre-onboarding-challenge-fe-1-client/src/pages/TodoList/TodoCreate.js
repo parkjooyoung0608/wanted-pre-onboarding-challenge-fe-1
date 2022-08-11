@@ -4,17 +4,25 @@ import axios from "axios";
 import API from "../../config";
 
 const TodoCreate = () => {
-  const [todoInput, setTodoInput] = useState("");
+  const [todoInput, setTodoInput] = useState({
+    title: "",
+    content: "",
+  });
 
-  const onChange = (e) => setTodoInput(e.target.value);
+  const { title, content } = todoInput;
+
+  const onChange = (e) => {
+    const { name, value } = e.target;
+    setTodoInput({ ...todoInput, [name]: value });
+  };
 
   const onSubmit = async (e) => {
     try {
       const res = await axios.post(
         `${API.todos}`,
         {
-          title: "hi",
-          content: todoInput,
+          title,
+          content,
         },
         {
           headers: { Authorization: localStorage.getItem("token") },
@@ -34,10 +42,18 @@ const TodoCreate = () => {
       <InsertFormPositioner>
         <InsertForm onSubmit={onSubmit}>
           <Input
+            name="title"
+            autoFocus
+            onChange={onChange}
+            placeholder="제목을 입력해주세요"
+            value={title}
+          />
+          <Input
+            name="content"
             autoFocus
             placeholder="할 일을 입력해주세요"
             onChange={onChange}
-            value={todoInput}
+            value={content}
           />
           <InputButton>추가</InputButton>
         </InsertForm>

@@ -33,7 +33,6 @@ const TodoItem = ({ id, text, title, onRemove }) => {
     };
 
     try {
-      console.log("dd");
       const res = await axios.put(`${API.todos}/${id}`, {
         headers,
         data: {
@@ -131,7 +130,7 @@ const RemoveButton = styled.div`
 
 const TodoItemBlock = styled.div`
   position: relative;
-  top: 110px;
+  top: 150px;
   left: 0;
   display: flex;
   align-items: center;

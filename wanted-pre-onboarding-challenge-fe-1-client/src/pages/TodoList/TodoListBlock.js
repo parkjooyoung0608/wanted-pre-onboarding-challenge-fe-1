@@ -5,16 +5,14 @@ import API from "../../config";
 import axios from "axios";
 
 const TodoListBlock = () => {
-  const [todoData, setTodoData] = useState({});
-
-  const { data } = todoData;
+  const [todoData, setTodoData] = useState([]);
 
   const getTodoList = async () => {
     try {
       const res = await axios.get(`${API.todos}`, {
         headers: { Authorization: localStorage.getItem("token") },
       });
-      setTodoData(res.data);
+      setTodoData(res.data.data);
     } catch (error) {
       alert(error);
     }
@@ -44,7 +42,7 @@ const TodoListBlock = () => {
 
   return (
     <TodoListBlockStyle>
-      {data?.map((data) => (
+      {todoData?.map((data) => (
         <div key={data.id}>
           <TodoItem
             key={data.id}
