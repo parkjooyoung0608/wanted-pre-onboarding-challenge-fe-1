@@ -14,6 +14,14 @@
 ## Refactoring
 
 ### 맥락을 이해하기 힘들었던 변수명과 컴포넌트명 수정
+로그인할때 유저가 입력한 이메일과 비밀번호의 값을 저장하는 함수의 이름을 `inputChangeHandle`로 지었으나 어떤 값이 저장되는지 목적을 알 수 없어 `handleChangeUserEmailPassword`로 수정하였습니다. <br/>
+이메일 비밀번호 유효성을 체크하는 변수명을 `inputChangeHandler`로 지었으나 어떤 유효성을 체크하는지 목적을 알 수 없어서 `isValidationEmailPassword`로 수정하였습니다. <br/>
+유저가 입력한 로그인 정보를 보내는 함수의 이름을 `submitClickHandler`로 지었으나 목적을 알 수 없어 `submitUserEmailPassword`로 수정하였습니다.
+![image](https://user-images.githubusercontent.com/72453080/184413330-43ee3d94-2d85-4011-9397-fc66efaef719.png)
+그 결과로 함수 이름만 보고도 어떤 값을 지우는지 파악하기 쉬워졌습니다. 
+![image](https://user-images.githubusercontent.com/72453080/184413352-285c2eaf-194b-44cf-81b8-689a1139ec54.png)
+
+<br/>
 
 로그아웃 버튼이 들어있는 컴포넌트 이름을 Header로 지었으나 공통으로 사용되는 Header가 아니고 TodoList에만 사용하는 Header이므로 TodoListHeader로 컴포넌트 이름을 수정하였습니다.  
 
