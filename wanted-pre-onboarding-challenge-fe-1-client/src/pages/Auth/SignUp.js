@@ -15,7 +15,7 @@ const SignUp = () => {
 
   const { email, password } = inputValue;
 
-  const inputChangeHandler = (e) => {
+  const handleChangeUserEmailPassword = (e) => {
     const { name, value } = e.target;
     setInputValue({
       ...inputValue,
@@ -23,10 +23,10 @@ const SignUp = () => {
     });
   };
 
-  const inputConditionCheck =
+  const isValidationEmailPassword =
     email.includes("@") && email.includes(".") && password.length > 7;
 
-  const submitClickHandler = async (e) => {
+  const submitUserEmailPassword = async (e) => {
     e.preventDefault();
     try {
       const res = await axios.post(`${API.signUp}`, {
@@ -51,7 +51,7 @@ const SignUp = () => {
             type="email"
             id="userId"
             placeholder="이메일을 입력해주세요"
-            onChange={inputChangeHandler}
+            onChange={handleChangeUserEmailPassword}
             value={email}
           />
           <InputLabel htmlFor="userPassword">비밀번호</InputLabel>
@@ -60,12 +60,12 @@ const SignUp = () => {
             type="password"
             id="userPassword"
             placeholder="비밀번호를 입력해주세요"
-            onChange={inputChangeHandler}
+            onChange={handleChangeUserEmailPassword}
             value={password}
           />
           <SignUpBtn
-            disabled={!inputConditionCheck}
-            onClick={submitClickHandler}
+            disabled={!isValidationEmailPassword}
+            onClick={submitUserEmailPassword}
           >
             가입하기
           </SignUpBtn>
