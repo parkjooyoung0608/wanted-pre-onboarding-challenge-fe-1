@@ -2,12 +2,12 @@ import React from "react";
 import TodoTemplate from "./TodoTemplate";
 import TodoListBlock from "./TodoListBlock";
 import TodoCreate from "./TodoCreate";
-import Header from "../../components/Header";
+import TodoListHeader from "./TodoListHeader";
 
 const TodoList = () => {
   return (
     <TodoTemplate>
-      <Header />
+      <TodoListHeader />
       <TodoCreate />
       <TodoListBlock />
     </TodoTemplate>

@@ -3,7 +3,7 @@ import styled, { css } from "styled-components";
 import axios from "axios";
 import API from "../../config";
 
-const TodoItem = ({ id, text, title, onRemove }) => {
+const TodoItem = ({ id, text, title, submitDeleteTodoItem }) => {
   const [edited, setEdited] = useState(false);
   const [done, setDone] = useState(false);
   const [newText, setNewText] = useState({
@@ -20,11 +20,11 @@ const TodoItem = ({ id, text, title, onRemove }) => {
 
   const { newTitle, newContent } = newText;
 
-  const onToggle = () => setDone(!done);
+  const handleClickCheckCircleToggle = () => setDone(!done);
 
-  const onClickEditButton = () => setEdited(true);
+  const handleClickEditButton = () => setEdited(true);
 
-  const onChangeEditInput = (e) => {
+  const handleChangeEditValue = (e) => {
     const { name, value } = e.target;
     setNewText({
       ...newText,
@@ -32,7 +32,7 @@ const TodoItem = ({ id, text, title, onRemove }) => {
     });
   };
 
-  const onClickAmend = async (id) => {
+  const submitAmendTodoValue = async (id) => {
     const headers = {
       Authorization: localStorage.getItem("token"),
     };
@@ -52,7 +52,7 @@ const TodoItem = ({ id, text, title, onRemove }) => {
 
   return (
     <TodoItemBlock>
-      <CheckCircle done={done} onClick={onToggle}>
+      <CheckCircle done={done} onClick={handleClickCheckCircleToggle}>
         {done && `✔️`}
       </CheckCircle>
 
@@ -64,7 +64,7 @@ const TodoItem = ({ id, text, title, onRemove }) => {
               name="newTitle"
               type="text"
               id="title"
-              onChange={onChangeEditInput}
+              onChange={handleChangeEditValue}
               value={newTitle}
             />
             <br />
@@ -73,11 +73,13 @@ const TodoItem = ({ id, text, title, onRemove }) => {
               name="newContent"
               type="text"
               id="content"
-              onChange={onChangeEditInput}
+              onChange={handleChangeEditValue}
               value={newContent}
             />
           </InputForm>
-          <AmendButton onClick={() => onClickAmend(id)}>수정하기</AmendButton>
+          <AmendButton onClick={() => submitAmendTodoValue(id)}>
+            수정하기
+          </AmendButton>
         </>
       ) : (
         <>
@@ -85,11 +87,11 @@ const TodoItem = ({ id, text, title, onRemove }) => {
             <Text>제목 : {newTitle}</Text>
             <Text>내용 : {newContent}</Text>
           </Text>
-          <AmendButton onClick={onClickEditButton}>수정</AmendButton>
+          <AmendButton onClick={handleClickEditButton}>수정</AmendButton>
         </>
       )}
 
-      <RemoveButton onClick={() => onRemove(id)}>🗑</RemoveButton>
+      <RemoveButton onClick={() => submitDeleteTodoItem(id)}>🗑</RemoveButton>
     </TodoItemBlock>
   );
 };

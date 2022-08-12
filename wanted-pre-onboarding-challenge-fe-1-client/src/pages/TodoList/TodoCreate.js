@@ -11,12 +11,12 @@ const TodoCreate = () => {
 
   const { title, content } = todoInput;
 
-  const onChange = (e) => {
+  const handleChangeContentValue = (e) => {
     const { name, value } = e.target;
     setTodoInput({ ...todoInput, [name]: value });
   };
 
-  const onSubmit = async (e) => {
+  const submitTodoItemCreate = async (e) => {
     try {
       const res = await axios.post(
         `${API.todos}`,
@@ -40,11 +40,11 @@ const TodoCreate = () => {
   return (
     <>
       <InsertFormPositioner>
-        <InsertForm onSubmit={onSubmit}>
+        <InsertForm onSubmit={submitTodoItemCreate}>
           <Input
             name="title"
             autoFocus
-            onChange={onChange}
+            onChange={handleChangeContentValue}
             placeholder="제목을 입력해주세요"
             value={title}
           />
@@ -52,7 +52,7 @@ const TodoCreate = () => {
             name="content"
             autoFocus
             placeholder="할 일을 입력해주세요"
-            onChange={onChange}
+            onChange={handleChangeContentValue}
             value={content}
           />
           <InputButton>추가</InputButton>

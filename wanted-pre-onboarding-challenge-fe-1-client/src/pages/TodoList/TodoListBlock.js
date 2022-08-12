@@ -22,7 +22,7 @@ const TodoListBlock = () => {
     getTodoList();
   }, []);
 
-  const onRemove = async (id) => {
+  const submitDeleteTodoItem = async (id) => {
     const headers = {
       Authorization: localStorage.getItem("token"),
     };
@@ -48,7 +48,7 @@ const TodoListBlock = () => {
             key={data.id}
             id={data.id}
             title={data.title}
-            onRemove={onRemove}
+            submitDeleteTodoItem={submitDeleteTodoItem}
             text={JSON.stringify(data.content).replace(/"/g, "")}
           />
         </div>

@@ -2,7 +2,7 @@ import React, { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 
-const Header = () => {
+const TodoListHeader = () => {
   const navigate = useNavigate();
   const isLogin = localStorage.getItem("token");
 
@@ -26,7 +26,7 @@ const Header = () => {
   );
 };
 
-export default Header;
+export default TodoListHeader;
 
 const Nav = styled.nav`
   position: absolute;
