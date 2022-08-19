@@ -5,7 +5,7 @@ import FormLayout from "../FormLayout/FormLayout";
 import API from "../../config";
 import axios from "axios";
 
-const SignUp = () => {
+const Login = () => {
   const navigate = useNavigate();
 
   const [inputValue, setInputValue] = useState({
@@ -15,7 +15,9 @@ const SignUp = () => {
 
   const { email, password } = inputValue;
 
-  const handleChangeUserEmailPassword = (e) => {
+  const handleChangeUserEmailPassword = (
+    e: React.ChangeEvent<HTMLInputElement>
+  ) => {
     const { name, value } = e.target;
     setInputValue({
       ...inputValue,
@@ -26,25 +28,32 @@ const SignUp = () => {
   const isValidationEmailPassword =
     email.includes("@") && email.includes(".") && password.length > 7;
 
-  const submitUserEmailPassword = async (e) => {
+  const submitUserEmailPassword = async (
+    e: React.MouseEvent<HTMLButtonElement>
+  ) => {
     e.preventDefault();
     try {
-      const res = await axios.post(`${API.signUp}`, {
+      const res = await axios.post(`${API.login}`, {
         email,
         password,
       });
       alert(res.data.message);
-      navigate("/auth/login");
+      localStorage.setItem("token", res.data.token);
+      navigate("/");
     } catch (error) {
       alert(error);
     }
   };
 
+  const goToSignUp = () => {
+    navigate("/auth/signup");
+  };
+
   return (
     <FormLayout>
-      <SignUpTitle>회원가입</SignUpTitle>
+      <LoginTitle>로그인</LoginTitle>
       <form>
-        <SignUpInputBox>
+        <LoginInputBox>
           <InputLabel htmlFor="userId">id</InputLabel>
           <Input
             name="email"
@@ -52,7 +61,6 @@ const SignUp = () => {
             id="userId"
             placeholder="이메일을 입력해주세요"
             onChange={handleChangeUserEmailPassword}
-            value={email}
           />
           <InputLabel htmlFor="userPassword">비밀번호</InputLabel>
           <Input
@@ -61,28 +69,28 @@ const SignUp = () => {
             id="userPassword"
             placeholder="비밀번호를 입력해주세요"
             onChange={handleChangeUserEmailPassword}
-            value={password}
           />
-          <SignUpBtn
+          <LoginBtn
             disabled={!isValidationEmailPassword}
             onClick={submitUserEmailPassword}
           >
-            가입하기
-          </SignUpBtn>
-        </SignUpInputBox>
+            로그인
+          </LoginBtn>
+          <LoginBtn onClick={goToSignUp}>회원가입</LoginBtn>
+        </LoginInputBox>
       </form>
     </FormLayout>
   );
 };
 
-export default SignUp;
+export default Login;
 
-const SignUpTitle = styled.h1`
-  margin-bottom: 30px;
+const LoginTitle = styled.h1`
   font-size: 30px;
+  margin-bottom: 30px;
 `;
 
-const SignUpInputBox = styled.div`
+const LoginInputBox = styled.div`
   display: flex;
   flex-direction: column;
 `;
@@ -93,9 +101,9 @@ const InputLabel = styled.label`
 `;
 
 const Input = styled.input`
+  width: 300px;
   margin-bottom: 20px;
   padding: 10px;
-  width: 300px;
   line-height: 40px;
   border: 1px solid lightgray;
   outline: none;
@@ -106,7 +114,7 @@ const Input = styled.input`
   }
 `;
 
-const SignUpBtn = styled.button`
+const LoginBtn = styled.button`
   margin: 10px auto 0 auto;
   width: 80%;
   height: 40px;

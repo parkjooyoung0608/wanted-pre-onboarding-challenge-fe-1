@@ -11,12 +11,13 @@ const TodoCreate = () => {
 
   const { title, content } = todoInput;
 
-  const handleChangeContentValue = (e) => {
+  const handleChangeContentValue = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
     setTodoInput({ ...todoInput, [name]: value });
   };
 
-  const submitTodoItemCreate = async (e) => {
+  const submitTodoItemCreate = async (e: React.FormEvent<HTMLFormElement>) => {
+    // e.preventDefault();
     try {
       const res = await axios.post(
         `${API.todos}`,
@@ -25,16 +26,19 @@ const TodoCreate = () => {
           content,
         },
         {
-          headers: { Authorization: localStorage.getItem("token") },
+          headers: { Authorization: "token" },
         }
       );
-      console.log(res);
+      localStorage.getItem("token");
       alert("작성완료");
     } catch (error) {
       alert(error);
     }
 
-    setTodoInput("");
+    // setTodoInput({
+    //   title: "",
+    //   content: "",
+    // });
   };
 
   return (

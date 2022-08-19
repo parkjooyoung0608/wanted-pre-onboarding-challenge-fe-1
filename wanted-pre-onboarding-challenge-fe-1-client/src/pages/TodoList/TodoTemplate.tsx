@@ -1,7 +1,11 @@
 import React from "react";
 import styled from "styled-components";
 
-const TodoTemplate = ({ children }) => {
+const TodoTemplate = ({
+  children,
+}: {
+  children: JSX.Element | JSX.Element[];
+}) => {
   return <TodoTemplateBlock>{children}</TodoTemplateBlock>;
 };
 

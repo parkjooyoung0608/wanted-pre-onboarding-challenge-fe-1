@@ -1,7 +1,11 @@
-import React from "react";
+import React, { ReactElement, ReactNode } from "react";
 import styled from "styled-components";
 
-const FormLayout = ({ children }) => {
+const FormLayout = ({
+  children,
+}: {
+  children: JSX.Element | JSX.Element[];
+}) => {
   return (
     <PageLayout>
       <PageContainer>{children}</PageContainer>

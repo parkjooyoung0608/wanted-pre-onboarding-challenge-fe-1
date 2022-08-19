@@ -1,11 +1,11 @@
-import React, { useState } from "react";
+import React, { ReactElement, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import FormLayout from "../FormLayout/FormLayout";
 import API from "../../config";
 import axios from "axios";
 
-const Login = () => {
+const SignUp = () => {
   const navigate = useNavigate();
 
   const [inputValue, setInputValue] = useState({
@@ -15,7 +15,9 @@ const Login = () => {
 
   const { email, password } = inputValue;
 
-  const handleChangeUserEmailPassword = (e) => {
+  const handleChangeUserEmailPassword = (
+    e: React.ChangeEvent<HTMLInputElement>
+  ) => {
     const { name, value } = e.target;
     setInputValue({
       ...inputValue,
@@ -26,30 +28,27 @@ const Login = () => {
   const isValidationEmailPassword =
     email.includes("@") && email.includes(".") && password.length > 7;
 
-  const submitUserEmailPassword = async (e) => {
+  const submitUserEmailPassword = async (
+    e: React.MouseEvent<HTMLButtonElement>
+  ) => {
     e.preventDefault();
     try {
-      const res = await axios.post(`${API.login}`, {
+      const res = await axios.post(`${API.signUp}`, {
         email,
         password,
       });
       alert(res.data.message);
-      localStorage.setItem("token", res.data.token);
-      navigate("/");
+      navigate("/auth/login");
     } catch (error) {
       alert(error);
     }
   };
 
-  const goToSignUp = () => {
-    navigate("/auth/signup");
-  };
-
   return (
     <FormLayout>
-      <LoginTitle>로그인</LoginTitle>
+      <SignUpTitle>회원가입</SignUpTitle>
       <form>
-        <LoginInputBox>
+        <SignUpInputBox>
           <InputLabel htmlFor="userId">id</InputLabel>
           <Input
             name="email"
@@ -57,6 +56,7 @@ const Login = () => {
             id="userId"
             placeholder="이메일을 입력해주세요"
             onChange={handleChangeUserEmailPassword}
+            value={email}
           />
           <InputLabel htmlFor="userPassword">비밀번호</InputLabel>
           <Input
@@ -65,28 +65,28 @@ const Login = () => {
             id="userPassword"
             placeholder="비밀번호를 입력해주세요"
             onChange={handleChangeUserEmailPassword}
+            value={password}
           />
-          <LoginBtn
+          <SignUpBtn
             disabled={!isValidationEmailPassword}
             onClick={submitUserEmailPassword}
           >
-            로그인
-          </LoginBtn>
-          <LoginBtn onClick={goToSignUp}>회원가입</LoginBtn>
-        </LoginInputBox>
+            가입하기
+          </SignUpBtn>
+        </SignUpInputBox>
       </form>
     </FormLayout>
   );
 };
 
-export default Login;
+export default SignUp;
 
-const LoginTitle = styled.h1`
-  font-size: 30px;
+const SignUpTitle = styled.h1`
   margin-bottom: 30px;
+  font-size: 30px;
 `;
 
-const LoginInputBox = styled.div`
+const SignUpInputBox = styled.div`
   display: flex;
   flex-direction: column;
 `;
@@ -97,9 +97,9 @@ const InputLabel = styled.label`
 `;
 
 const Input = styled.input`
-  width: 300px;
   margin-bottom: 20px;
   padding: 10px;
+  width: 300px;
   line-height: 40px;
   border: 1px solid lightgray;
   outline: none;
@@ -110,7 +110,7 @@ const Input = styled.input`
   }
 `;
 
-const LoginBtn = styled.button`
+const SignUpBtn = styled.button`
   margin: 10px auto 0 auto;
   width: 80%;
   height: 40px;

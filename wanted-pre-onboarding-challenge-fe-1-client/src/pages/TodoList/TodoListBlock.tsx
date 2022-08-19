@@ -2,7 +2,13 @@ import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import TodoItem from "./TodoItem";
 import API from "../../config";
-import axios from "axios";
+import axios, { AxiosRequestHeaders } from "axios";
+
+type TodoGetDataType = {
+  id: string;
+  title: string;
+  content: string;
+};
 
 const TodoListBlock = () => {
   const [todoData, setTodoData] = useState([]);
@@ -10,8 +16,9 @@ const TodoListBlock = () => {
   const getTodoList = async () => {
     try {
       const res = await axios.get(`${API.todos}`, {
-        headers: { Authorization: localStorage.getItem("token") },
+        headers: { Authorization: "token" },
       });
+      localStorage.getItem("token");
       setTodoData(res.data.data);
     } catch (error) {
       alert(error);
@@ -22,15 +29,16 @@ const TodoListBlock = () => {
     getTodoList();
   }, []);
 
-  const submitDeleteTodoItem = async (id) => {
-    const headers = {
-      Authorization: localStorage.getItem("token"),
+  const submitDeleteTodoItem = async (id: string) => {
+    const headers: AxiosRequestHeaders | undefined = {
+      Authorization: "token",
     };
 
     try {
       const res = await axios.delete(`${API.todos}/${id}`, {
         headers,
       });
+      localStorage.getItem("token");
       if (res.status === 200) {
         alert("정말 삭제하시겠습니까?");
       }
@@ -42,7 +50,7 @@ const TodoListBlock = () => {
 
   return (
     <TodoListBlockStyle>
-      {todoData?.map((data) => (
+      {todoData?.map((data: TodoGetDataType) => (
         <div key={data.id}>
           <TodoItem
             key={data.id}

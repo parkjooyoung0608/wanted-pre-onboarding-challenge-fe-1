@@ -3,7 +3,20 @@ import styled, { css } from "styled-components";
 import axios from "axios";
 import API from "../../config";
 
-const TodoItem = ({ id, text, title, submitDeleteTodoItem }) => {
+type Props = {
+  id: string;
+  text: string;
+  title: string;
+  submitDeleteTodoItem: Function;
+};
+
+interface CheckCircleType {
+  done: boolean;
+}
+
+type CheckCircleStyleType = Partial<CheckCircleType>;
+
+const TodoItem = ({ id, text, title, submitDeleteTodoItem }: Props) => {
   const [edited, setEdited] = useState(false);
   const [done, setDone] = useState(false);
   const [newText, setNewText] = useState({
@@ -24,7 +37,7 @@ const TodoItem = ({ id, text, title, submitDeleteTodoItem }) => {
 
   const handleClickEditButton = () => setEdited(true);
 
-  const handleChangeEditValue = (e) => {
+  const handleChangeEditValue = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
     setNewText({
       ...newText,
@@ -32,17 +45,14 @@ const TodoItem = ({ id, text, title, submitDeleteTodoItem }) => {
     });
   };
 
-  const submitAmendTodoValue = async (id) => {
-    const headers = {
-      Authorization: localStorage.getItem("token"),
-    };
-
+  const submitAmendTodoValue = async (id: string) => {
     try {
       const res = await axios.put(
         `${API.todos}/${id}`,
         { title: newTitle, content: newContent },
-        { headers }
+        { headers: { Authorization: "token" } }
       );
+      localStorage.getItem("token");
       console.log(res.data);
     } catch (error) {
       alert(error);
@@ -151,7 +161,7 @@ const CheckCircle = styled.div`
   justify-content: center;
   margin-right: 20px;
   cursor: pointer;
-  ${(props) =>
+  ${(props: CheckCircleStyleType) =>
     props.done &&
     css`
       border: 1px solid #38d9a9;
@@ -164,7 +174,7 @@ const Text = styled.div`
   flex: 1;
   font-size: 21px;
   color: #495057;
-  ${(props) =>
+  ${(props: CheckCircleStyleType) =>
     props.done &&
     css`
       color: #ced4da;
